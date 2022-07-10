@@ -1,8 +1,9 @@
 h1 {
-    font-size: 50px;
+    font-size: 80px;
     font-weight: 400;
     letter-spacing: 3px;
-    color: #f8f8ff;
+    color: #dbdbe2;
+    background-color: black;
 }
 
 #weatherContent {
@@ -22,14 +23,15 @@ li {
 #searchResults,
 #cityDetails,
 .card {
-    background-color: #5a6c73!important;
+    background-color: #5a7073!important;
 }
 
 #searchResult {
     height: 100vh;
 }
 
-#fiveDay .card{
+#fiveDay
+.card{
     border: 1px solid white!important;
 }
 

@@ -4,12 +4,13 @@
 
 This project has been deployed to GitHub Pages.
 
-This site was built using [GitHub Pages](https://jlnaraga.github.io/jovy-ira-password-generator/Develop/index.html)
+This site was built using [GitHub Pages](https://jlnaraga.github.io/jovy-ira-weather-dashboard/)
 
-[GitHub Repository](https://github.com/Jlnaraga/jovy-ira-password-generator.git)
+[GitHub Repository](https://github.com/Jlnaraga/jovy-ira-weather-dashboard.git)
 
-# Screenshots
-![Desktop View](./Develop/screenshots/jlnaraga.github.io_jovy-ira-password-generator_Develop_index.html_desktop-view.png)
+# Screenshots and demo
+![Desktop View](./screenshot%20and%20demo/jlnaraga.github.io_jovy-ira-weather-dashboard_desktopview.png)
+![Demo](./screenshot%20and%20demo/2022-07-10_23-47-10.gif)
 
 [Functionality]
 When searched for a city, the current and future conditions for that city will be presented and that city is added to the search history

@@ -12,6 +12,7 @@ WHEN I view future weather conditions for that city*/
 
 var apiKey = "d1e2d0763204896fd894698f5c6e27ee";
 var today = moment().format('L');
+var day = moment().format('dddd');
 var searchHistoryList = [];
 
 // function for current condition
@@ -30,7 +31,8 @@ function currentCondition(city) {
         $("#cityDetail").empty();
 
         var iconCode = cityWeatherResponse.weather[0].icon;
-        var iconUrl = 'https://openweathermap.org/img/w/${iconCode}.png';
+        var iconURL = `https://openweathermap.org/img/w/${iconCode}.png`;
+
 
         /* WHEN I view current weather conditions for that city
         THEN I am presented with the city name
@@ -42,8 +44,12 @@ function currentCondition(city) {
         
         var currentCity = $(`
             <h2 id="currentCity">
-                ${cityWeatherResponse.name} ${today} <img src="${iconURL}" alt="${cityWeatherResponse.weather[0].description}" />
+                ${cityWeatherResponse.name} <img src="${iconURL}" alt="${cityWeatherResponse.weather[0].description}" />
             </h2>
+            <h3 id="currentDay">
+                ${day} ${today}
+            </h3>
+
             <p>Temperature:${cityWeatherResponse.main.temp} °F</p>
             <p>Humidity: ${cityWeatherResponse.main.humidity}\%</p>
             <p>Wind Speed: ${cityWeatherResponse.wind.speed} MPH</p>
@@ -53,9 +59,9 @@ function currentCondition(city) {
 
             // UV index
         var lat = cityWeatherResponse.coord.lat;
-        var Ion = cityWeatherResponse.coord.Ion;
+        var lon = cityWeatherResponse.coord.lon;
         var uviQueryURL =  `https://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${lon}&appid=${apiKey}`;
-        ur
+        
         $.ajax({
             url: uviQueryURL,
             method: "GET"
@@ -63,7 +69,7 @@ function currentCondition(city) {
             console.log(uviResponse);
 
             var uvIndex = uviResponse.value;
-            var uvIndex = $(`
+            var uvIndexP = $(`
                 <p>UV Index:
                     <span id="uvIndexColor" class="px-2 py-2 rounded">${uvIndex}</span>
                 </p>
@@ -71,7 +77,7 @@ function currentCondition(city) {
 
             $("#cityDetail").append(uvIndexP);
 
-            futureCondition(lat, Ion);
+            futureCondition(lat, lon);
 
             // WHEN I view the UV index
             //THEN I am presented with a color that indicates whether the conditions are favorable, moderate, or severe
@@ -114,6 +120,7 @@ function futureCondition(lat, lon) {
             };
 
             var currDate = moment.unix(cityInfo.date).format("MM/DD/YYYY");
+            var currDay = moment.unix(cityInfo.date).format("dddd")
             var iconURL = `<img src="https://openweathermap.org/img/w/${cityInfo.icon}.png" alt="${futureResponse.daily[i].weather[0].main}" />`;
 
 
@@ -126,6 +133,7 @@ function futureCondition(lat, lon) {
                     <div class="card pl-3 pt-3 mb-3 bg-primary text-light" style="width: 12rem;>
                         <div class="card-body">
                             <h5>${currDate}</h5>
+                            <h5>${currDay}</h5>
                             <p>${iconURL}</p>
                             <p>Temp: ${cityInfo.temp} °F</p>
                             <p>Humidity: ${cityInfo.humidity}\%</p>
@@ -160,11 +168,21 @@ $("#searchBtn").on("click", function(event) {
 // WHEN I click on a city in the search history
 // THEN I am again presented with current and future conditions for that city
 
-
-
-
-
-
+$(document).on("click", ".list-group-item", function() {
+    var listCity = $(this).text();
+    currentCondition(listCity);
+});
 
 // WHEN I open the weather dashboard
 // THEN I am presented with the last searched city forecast
+
+$(document).ready(function() {
+    var searchHistoryArr = JSON.parse(localStorage.getItem("city"));
+
+    if (searchHistoryArr !== null) {
+        var lastSearchedIndex = searchHistoryArr.length - 1;
+        var lastSearchedCity = searchHistoryArr[lastSearchedIndex];
+        currentCondition(lastSearchedCity);
+        console.log(`Last searched city: ${lastSearchedCity}`);
+    }
+});
